@@ -1,1 +1,73 @@
-@import "~bootstrap/dist/css/bootstrap.css.min";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --primary-color: #026467;
+  --secondary-color: #e5f5ea;
+  --body-text-color: #596392;
+  --navbar-footer-color: #f9f9f9;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  color: var(--body-text-color);
+}
+
+.site-logo {
+  padding: 5px 20px;
+  border-radius: 20px;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.nav-link {
+  color: var(--primary-color);
+}
+
+.shadow-effect {
+  border: none;
+  box-shadow: 0px 0px 33px -10px rgba(71, 114, 254, 0.3);
+}
+
+.bg-theme {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary-theme {
+  background-color: var(--secondary-color);
+}
+
+.text-theme-primary {
+  color: var(--primary-color);
+}
+
+input[type="text"],
+input[type="email"] {
+  height: 60px;
+  padding-left: 20px;
+  font-size: 15px;
+  width: 100%;
+  border: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: #596392;
+}
+
+.btn-theme {
+  height: 60px;
+  border: none;
+  font-size: 15px;
+  color: #fff;
+  background-color: var(--primary-color);
+}
