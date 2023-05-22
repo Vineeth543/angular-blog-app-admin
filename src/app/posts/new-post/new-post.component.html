@@ -52,7 +52,17 @@
             </div>
             <div class="form-group">
               <label>Post Image</label>
-              <input type="file" class="form-control my-2" />
+              <img
+                [src]="imgSrc"
+                class="form-control img-fluid img-preview"
+                alt=""
+              />
+              <input
+                type="file"
+                class="form-control my-2"
+                accept="image/*"
+                (change)="showPreview($event)"
+              />
             </div>
           </div>
         </div>

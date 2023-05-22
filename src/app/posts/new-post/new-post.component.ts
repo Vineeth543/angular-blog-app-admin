@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NewPostComponent {
   permalink!: string;
+  imgSrc: string = './assets/image-placeholder.png';
 
   generatePermalink($event: Event): void {
     const title = ($event.target as HTMLInputElement).value;
@@ -15,5 +16,14 @@ export class NewPostComponent {
       .replace(/[^a-zA-Z0-9]+/g, '-')
       .replace(/^-+/, '')
       .replace(/-+$/, '');
+  }
+
+  showPreview($event: Event): void {
+    const file = ($event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => (this.imgSrc = reader.result as string);
+      reader.readAsDataURL(file);
+    }
   }
 }
