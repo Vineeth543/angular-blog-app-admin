@@ -47,7 +47,13 @@
             <div class="form-group">
               <label>Please select a post category</label>
               <select class="form-control my-2">
-                <option value="" disabled>Please select a category</option>
+                <option disabled selected>Select category</option>
+                <option
+                  *ngFor="let category of categories$ | async"
+                  [value]="category.id"
+                >
+                  {{ category.data.category }}
+                </option>
               </select>
             </div>
             <div class="form-group">

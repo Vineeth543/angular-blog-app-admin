@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-new-post',
@@ -8,6 +9,10 @@ import { Component } from '@angular/core';
 export class NewPostComponent {
   permalink!: string;
   imgSrc: string = './assets/image-placeholder.png';
+
+  categories$ = this.categoryService.loadData();
+
+  constructor(private categoryService: CategoryService) {}
 
   generatePermalink($event: Event): void {
     const title = ($event.target as HTMLInputElement).value;
