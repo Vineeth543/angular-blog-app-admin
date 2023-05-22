@@ -30,7 +30,7 @@ export class CategoryService {
       .collection('categories')
       .add(categoryData)
       .then(() => this.toastr.success('Category added successfully..!'))
-      .catch((error) => console.error('Error adding document: ', error));
+      .catch(() => this.toastr.error('Error while adding category..!'));
   }
 
   updateData(categoryId: string, categoryData: Category): void {
@@ -39,6 +39,15 @@ export class CategoryService {
       .doc(categoryId)
       .set(categoryData)
       .then(() => this.toastr.success('Category updated successfully..!'))
-      .catch((error) => console.error('Error updating document: ', error));
+      .catch(() => this.toastr.error('Error while updating category..!'));
+  }
+
+  deleteData(categoryId: string): void {
+    this.afs
+      .collection('categories')
+      .doc(categoryId)
+      .delete()
+      .then(() => this.toastr.success('Category deleted successfully..!'))
+      .catch(() => this.toastr.error('Error while deleting category..!'));
   }
 }

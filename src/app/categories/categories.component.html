@@ -69,7 +69,12 @@
                   >
                     Update
                   </button>
-                  <button class="btn btn-sm btn-danger ms-1">Delete</button>
+                  <button
+                    class="btn btn-sm btn-danger ms-1"
+                    (click)="onDelete(category.id)"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             </tbody>

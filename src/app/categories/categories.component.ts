@@ -31,4 +31,8 @@ export class CategoriesComponent {
     this.categoryId = categoryId;
     this.formStatus = 'Update';
   }
+
+  onDelete(categoryId: string): void {
+    this.categoryService.deleteData(categoryId);
+  }
 }
