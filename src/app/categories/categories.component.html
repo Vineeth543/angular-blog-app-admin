@@ -1,8 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
-      <h3 class="text-center text-theme-primary">New Categories</h3>
-      <p class="text-center mb-5">You can add new categories from here ..!</p>
+      <h3 class="text-center text-theme-primary">
+        {{ formStatus }} Categories
+      </h3>
+      <p class="text-center mb-5">
+        You can {{ formStatus | lowercase }} new categories from here ..!
+      </p>
       <form
         class="row align-items-center g-5"
         #categoryForm="ngForm"
@@ -15,7 +19,7 @@
             class="form-control shadow-effect"
             placeholder="Add New Categories"
             #newCategory="ngModel"
-            ngModel
+            [(ngModel)]="formCategory"
             required
             [ngClass]="{
               'is-invalid': newCategory.invalid && newCategory.touched
@@ -33,7 +37,7 @@
             class="btn btn-lg btn-theme"
             [disabled]="categoryForm.invalid"
           >
-            Add Category
+            {{ formStatus }} Category
           </button>
         </div>
       </form>
@@ -59,7 +63,12 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ category.data.category }}</td>
                 <td>
-                  <button class="btn btn-sm btn-primary me-1">Update</button>
+                  <button
+                    class="btn btn-sm btn-warning me-1"
+                    (click)="onUpdate(category.data.category, category.id)"
+                  >
+                    Update
+                  </button>
                   <button class="btn btn-sm btn-danger ms-1">Delete</button>
                 </td>
               </tr>

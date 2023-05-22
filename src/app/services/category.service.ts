@@ -29,10 +29,16 @@ export class CategoryService {
     this.afs
       .collection('categories')
       .add(categoryData)
-      .then((docRef) => {
-        console.log('Document written: ', docRef);
-        this.toastr.success('Category added successfully');
-      })
+      .then(() => this.toastr.success('Category added successfully..!'))
       .catch((error) => console.error('Error adding document: ', error));
+  }
+
+  updateData(categoryId: string, categoryData: Category): void {
+    this.afs
+      .collection('categories')
+      .doc(categoryId)
+      .set(categoryData)
+      .then(() => this.toastr.success('Category updated successfully..!'))
+      .catch((error) => console.error('Error updating document: ', error));
   }
 }
