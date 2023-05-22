@@ -16,14 +16,17 @@
                 type="text"
                 class="form-control my-2"
                 placeholder="Enter title"
+                (keyup)="generatePermalink($event)"
               />
             </div>
             <div class="form-group">
               <label>Permalink</label>
               <input
                 type="text"
-                class="form-control my-2"
-                placeholder="Enter permalink"
+                name="permalink"
+                [(ngModel)]="permalink"
+                class="form-control my-2 bg-light"
+                [disabled]="true"
               />
             </div>
             <div class="form-group">
