@@ -35,8 +35,7 @@ export class CategoryService {
 
   updateData(categoryId: string, categoryData: Category): void {
     this.afs
-      .collection('categories')
-      .doc(categoryId)
+      .doc(`categories/${categoryId}`)
       .set(categoryData)
       .then(() => this.toastr.success('Category updated successfully..!'))
       .catch(() => this.toastr.error('Error while updating category..!'));
@@ -44,8 +43,7 @@ export class CategoryService {
 
   deleteData(categoryId: string): void {
     this.afs
-      .collection('categories')
-      .doc(categoryId)
+      .doc(`categories/${categoryId}`)
       .delete()
       .then(() => this.toastr.success('Category deleted successfully..!'))
       .catch(() => this.toastr.error('Error while deleting category..!'));
