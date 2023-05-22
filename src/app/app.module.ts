@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { AllPostComponent } from './posts/all-post/all-post.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule,
+    AngularEditorModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
