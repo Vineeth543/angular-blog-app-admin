@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Post } from 'src/app/models/post';
 import { CategoryService } from 'src/app/services/category.service';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-new-post',
@@ -8,8 +10,8 @@ import { CategoryService } from 'src/app/services/category.service';
   styleUrls: ['./new-post.component.less'],
 })
 export class NewPostComponent {
-  permalink!: string;
   imgSrc: string = './assets/image-placeholder.png';
+  imgFile: File | undefined;
   postForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(10)]),
     permalink: new FormControl({ value: '', disabled: true }, [
@@ -26,7 +28,10 @@ export class NewPostComponent {
 
   categories$ = this.categoryService.loadData();
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private postService: PostsService,
+    private categoryService: CategoryService
+  ) {}
 
   showFormErrors(field: string): string | void {
     const targetField = this.postForm.get(field);
@@ -47,20 +52,45 @@ export class NewPostComponent {
   }
 
   generatePermalink($event: Event): void {
-    const title = ($event.target as HTMLInputElement).value;
-    this.permalink = title
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9]+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '');
+    const link = ($event.target as HTMLInputElement).value;
+    this.postForm.patchValue({
+      permalink: link
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, ''),
+    });
   }
 
   showPreview($event: Event): void {
-    const file = ($event.target as HTMLInputElement).files?.[0];
-    if (file) {
+    this.imgFile = ($event.target as HTMLInputElement).files?.[0];
+    if (this.imgFile) {
       const reader = new FileReader();
       reader.onload = () => (this.imgSrc = reader.result as string);
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.imgFile);
     }
+  }
+
+  onSubmit(): void {
+    this.postForm.get('permalink')!.enable();
+    const postData: Post = {
+      title: this.postForm.value.title,
+      permalink: this.postForm.value.permalink,
+      category: {
+        categoryId: this.postForm.value.category.split('-')[0],
+        category: this.postForm.value.category.split('-')[1],
+      },
+      postImgPath: '',
+      excerpt: this.postForm.value.excerpt,
+      content: this.postForm.value.content,
+      isFeatured: false,
+      views: 0,
+      status: 'new',
+      createdAt: new Date(),
+    };
+    this.postForm.get('permalink')!.disable();
+    this.postService.uploadImage(this.imgFile!);
   }
 }

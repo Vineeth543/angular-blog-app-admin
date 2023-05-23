@@ -5,7 +5,7 @@
       <p class="mb-5">You can add your new post here</p>
     </div>
   </div>
-  <form [formGroup]="postForm">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col-md-7">
         <div class="card shadow-effect">
@@ -32,8 +32,6 @@
               <label>Permalink</label>
               <input
                 type="text"
-                name="permalink"
-                [(ngModel)]="permalink"
                 class="form-control my-2 bg-light"
                 formControlName="permalink"
                 [ngClass]="{
@@ -91,7 +89,7 @@
                 <option value="" disabled selected>Select category</option>
                 <option
                   *ngFor="let category of categories$ | async"
-                  [value]="category.id"
+                  value="{{ category.id }}-{{ category.data.category }}"
                 >
                   {{ category.data.category }}
                 </option>
