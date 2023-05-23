@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Post } from 'src/app/models/post';
-import { CategoryService } from 'src/app/services/category.service';
 import { PostsService } from 'src/app/services/posts.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new-post',
@@ -91,6 +91,8 @@ export class NewPostComponent {
       createdAt: new Date(),
     };
     this.postForm.get('permalink')!.disable();
-    this.postService.uploadImage(this.imgFile!);
+    this.postService.uploadImage(this.imgFile!, postData);
+    this.postForm.reset();
+    this.imgSrc = './assets/image-placeholder.png';
   }
 }

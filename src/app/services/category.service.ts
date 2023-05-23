@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Category } from '../models/category';
-import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Category } from '../models/category';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -29,23 +29,23 @@ export class CategoryService {
     this.afs
       .collection('categories')
       .add(categoryData)
-      .then(() => this.toastr.success('Category added successfully..!'))
-      .catch(() => this.toastr.error('Error while adding category..!'));
+      .then(() => this.toastr.success('Category added successfully. 😊'))
+      .catch(() => this.toastr.error('Error while adding category. 😭'));
   }
 
   updateData(categoryId: string, categoryData: Category): void {
     this.afs
       .doc(`categories/${categoryId}`)
       .set(categoryData)
-      .then(() => this.toastr.success('Category updated successfully..!'))
-      .catch(() => this.toastr.error('Error while updating category..!'));
+      .then(() => this.toastr.success('Category updated successfully. 😊'))
+      .catch(() => this.toastr.error('Error while updating category. 😭'));
   }
 
   deleteData(categoryId: string): void {
     this.afs
       .doc(`categories/${categoryId}`)
       .delete()
-      .then(() => this.toastr.success('Category deleted successfully..!'))
-      .catch(() => this.toastr.error('Error while deleting category..!'));
+      .then(() => this.toastr.success('Category deleted successfully. 😊'))
+      .catch(() => this.toastr.error('Error while deleting category. 😭'));
   }
 }
