@@ -5,7 +5,7 @@
       <p class="mb-5">You can add your new post here</p>
     </div>
   </div>
-  <form>
+  <form [formGroup]="postForm">
     <div class="row">
       <div class="col-md-7">
         <div class="card shadow-effect">
@@ -17,6 +17,7 @@
                 class="form-control my-2"
                 placeholder="Enter title"
                 (keyup)="generatePermalink($event)"
+                formControlName="title"
               />
             </div>
             <div class="form-group">
@@ -26,7 +27,7 @@
                 name="permalink"
                 [(ngModel)]="permalink"
                 class="form-control my-2 bg-light"
-                [disabled]="true"
+                formControlName="permalink"
               />
             </div>
             <div class="form-group">
@@ -35,6 +36,8 @@
                 cols="30"
                 rows="10"
                 class="form-control my-2"
+                formControlName="excerpt"
+                placeholder="Enter excerpt"
               ></textarea>
             </div>
           </div>
@@ -46,8 +49,8 @@
           <div class="card-body">
             <div class="form-group">
               <label>Please select a post category</label>
-              <select class="form-control my-2">
-                <option disabled selected>Select category</option>
+              <select class="form-control my-2" formControlName="category">
+                <option value="" disabled selected>Select category</option>
                 <option
                   *ngFor="let category of categories$ | async"
                   [value]="category.id"
@@ -61,13 +64,14 @@
               <img
                 [src]="imgSrc"
                 class="form-control img-fluid img-preview"
-                alt=""
+                alt="post image"
               />
               <input
                 type="file"
                 class="form-control my-2"
                 accept="image/*"
                 (change)="showPreview($event)"
+                formControlName="image"
               />
             </div>
           </div>
@@ -82,6 +86,7 @@
                 <label>Content</label>
                 <angular-editor
                   placeholder="Add your content here"
+                  formControlName="content"
                 ></angular-editor>
               </div>
             </div>
@@ -89,7 +94,9 @@
         </div>
 
         <div class="col-md-12 text-center my-4">
-          <button class="btn bg-theme me-1">Save Post</button>
+          <button class="btn bg-theme me-1" disabled="postForm.invalid">
+            Save Post
+          </button>
           <button class="btn btn-warning ms-1" routerLink="../">
             Back to Post
           </button>

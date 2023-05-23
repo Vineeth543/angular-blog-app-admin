@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
@@ -9,6 +10,16 @@ import { CategoryService } from 'src/app/services/category.service';
 export class NewPostComponent {
   permalink!: string;
   imgSrc: string = './assets/image-placeholder.png';
+  postForm: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    permalink: new FormControl({ value: '', disabled: true }, [
+      Validators.required,
+    ]),
+    excerpt: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required]),
+    category: new FormControl('', [Validators.required]),
+    image: new FormControl('', [Validators.required]),
+  });
 
   categories$ = this.categoryService.loadData();
 
