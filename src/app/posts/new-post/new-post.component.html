@@ -18,7 +18,15 @@
                 placeholder="Enter title"
                 (keyup)="generatePermalink($event)"
                 formControlName="title"
+                [ngClass]="{
+                  'is-invalid': showFormErrors('title'),
+                  'is-valid':
+                    !showFormErrors('title') && postForm.get('title')?.touched
+                }"
               />
+              <div *ngIf="showFormErrors('title')" class="alert alert-danger">
+                {{ showFormErrors("title") }}
+              </div>
             </div>
             <div class="form-group">
               <label>Permalink</label>
@@ -28,7 +36,19 @@
                 [(ngModel)]="permalink"
                 class="form-control my-2 bg-light"
                 formControlName="permalink"
+                [ngClass]="{
+                  'is-invalid': showFormErrors('permalink'),
+                  'is-valid':
+                    !showFormErrors('permalink') &&
+                    postForm.get('permalink')?.touched
+                }"
               />
+              <div
+                *ngIf="showFormErrors('permalink')"
+                class="alert alert-danger"
+              >
+                {{ showFormErrors("permalink") }}
+              </div>
             </div>
             <div class="form-group">
               <label>Excerpt</label>
@@ -38,7 +58,16 @@
                 class="form-control my-2"
                 formControlName="excerpt"
                 placeholder="Enter excerpt"
+                [ngClass]="{
+                  'is-invalid': showFormErrors('excerpt'),
+                  'is-valid':
+                    !showFormErrors('excerpt') &&
+                    postForm.get('excerpt')?.touched
+                }"
               ></textarea>
+              <div *ngIf="showFormErrors('excerpt')" class="alert alert-danger">
+                {{ showFormErrors("excerpt") }}
+              </div>
             </div>
           </div>
         </div>
@@ -48,8 +77,17 @@
         <div class="card shadow-effect">
           <div class="card-body">
             <div class="form-group">
-              <label>Please select a post category</label>
-              <select class="form-control my-2" formControlName="category">
+              <label>Category</label>
+              <select
+                class="form-control my-2"
+                formControlName="category"
+                [ngClass]="{
+                  'is-invalid': showFormErrors('category'),
+                  'is-valid':
+                    !showFormErrors('category') &&
+                    postForm.get('category')?.touched
+                }"
+              >
                 <option value="" disabled selected>Select category</option>
                 <option
                   *ngFor="let category of categories$ | async"
@@ -58,6 +96,12 @@
                   {{ category.data.category }}
                 </option>
               </select>
+              <div
+                *ngIf="showFormErrors('category')"
+                class="alert alert-danger"
+              >
+                {{ showFormErrors("category") }}
+              </div>
             </div>
             <div class="form-group">
               <label>Post Image</label>
@@ -71,8 +115,17 @@
                 class="form-control my-2"
                 accept="image/*"
                 (change)="showPreview($event)"
-                formControlName="image"
+                formControlName="postImg"
+                [ngClass]="{
+                  'is-invalid': showFormErrors('postImg'),
+                  'is-valid':
+                    !showFormErrors('postImg') &&
+                    postForm.get('postImg')?.touched
+                }"
               />
+              <div *ngIf="showFormErrors('postImg')" class="alert alert-danger">
+                {{ showFormErrors("postImg") }}
+              </div>
             </div>
           </div>
         </div>
@@ -87,17 +140,29 @@
                 <angular-editor
                   placeholder="Add your content here"
                   formControlName="content"
+                  [ngClass]="{
+                    'is-invalid': showFormErrors('content'),
+                    'is-valid':
+                      !showFormErrors('content') &&
+                      postForm.get('content')?.touched
+                  }"
                 ></angular-editor>
+                <div
+                  *ngIf="showFormErrors('content')"
+                  class="alert alert-danger mt-2"
+                >
+                  {{ showFormErrors("content") }}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-12 text-center my-4">
-          <button class="btn bg-theme me-1" disabled="postForm.invalid">
+          <button class="btn bg-theme me-1" [disabled]="postForm.invalid">
             Save Post
           </button>
-          <button class="btn btn-warning ms-1" routerLink="../">
+          <button type="button" class="btn btn-warning ms-1" routerLink="../">
             Back to Post
           </button>
         </div>

@@ -11,19 +11,40 @@ export class NewPostComponent {
   permalink!: string;
   imgSrc: string = './assets/image-placeholder.png';
   postForm: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required]),
+    title: new FormControl('', [Validators.required, Validators.minLength(10)]),
     permalink: new FormControl({ value: '', disabled: true }, [
       Validators.required,
     ]),
-    excerpt: new FormControl('', [Validators.required]),
+    excerpt: new FormControl('', [
+      Validators.required,
+      Validators.minLength(50),
+    ]),
     content: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
+    postImg: new FormControl('', [Validators.required]),
   });
 
   categories$ = this.categoryService.loadData();
 
   constructor(private categoryService: CategoryService) {}
+
+  showFormErrors(field: string): string | void {
+    const targetField = this.postForm.get(field);
+    if (targetField?.touched && !targetField.valid) {
+      if (targetField.errors?.['required']) {
+        return field[0].toUpperCase() + field.slice(1) + ' is required';
+      }
+      if (targetField.errors?.['minlength']) {
+        return (
+          field[0].toUpperCase() +
+          field.slice(1) +
+          ' must be at least ' +
+          targetField.errors?.['minlength'].requiredLength +
+          ' characters long'
+        );
+      }
+    }
+  }
 
   generatePermalink($event: Event): void {
     const title = ($event.target as HTMLInputElement).value;
