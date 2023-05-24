@@ -15,4 +15,51 @@
       </div>
     </div>
   </div>
+
+  <div class="row my-4">
+    <div class="col-md-12">
+      <div *ngIf="posts$ | async as posts" class="card shadow-effect">
+        <div *ngIf="posts.length" class="card-body">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Excerpt</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of posts; let i = index">
+                <td width="10">{{ i + 1 }}</td>
+                <td width="200">
+                  <img
+                    [src]="post.data.postImgPath"
+                    alt="post.data.title"
+                    class="img img-fluid post-img"
+                  />
+                </td>
+                <td width="200">{{ post.data.title }}</td>
+                <td width="300">{{ post.data.excerpt }}</td>
+                <td>{{ post.data.category.category }}</td>
+                <td>{{ formatDate(post.data.createdAt) }}</td>
+                <td width="150">
+                  <button class="btn btn-sm btn-warning me-1">Update</button>
+                  <button class="btn btn-sm btn-danger ms-1">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="!posts.length" class="card-body text-center">
+          <h3 class="text-theme-center">No Posts Found ☹</h3>
+          <p>There are no posts available</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
