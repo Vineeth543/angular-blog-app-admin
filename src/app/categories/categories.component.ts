@@ -1,6 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
 import { CategoryService } from '../services/category.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -10,11 +11,12 @@ import { CategoryService } from '../services/category.service';
 export class CategoriesComponent {
   categoryId!: string;
   formCategory!: string;
+  isLoad: boolean = true;
   formStatus: string = 'Add';
 
   constructor(private categoryService: CategoryService) {}
 
-  categories$ = this.categoryService.loadData();
+  categories$ = this.categoryService.loadData().pipe(tap(() => (this.isLoad = false)));
 
   onSubmit(formData: NgForm): void {
     if (this.formStatus === 'Add') {

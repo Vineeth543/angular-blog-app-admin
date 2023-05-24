@@ -18,7 +18,10 @@
 
   <div class="row my-4">
     <div class="col-md-12">
-      <div *ngIf="posts$ | async as posts" class="card shadow-effect">
+      <div
+        *ngIf="posts$ | async as posts; else loader"
+        class="card shadow-effect"
+      >
         <div *ngIf="posts.length" class="card-body">
           <table class="table text-center">
             <thead>
@@ -62,4 +65,8 @@
       </div>
     </div>
   </div>
+
+  <ng-template #loader>
+    <app-loader [isLoad]="isLoad"></app-loader>
+  </ng-template>
 </div>

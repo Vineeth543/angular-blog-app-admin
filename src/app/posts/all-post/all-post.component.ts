@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { tap } from 'rxjs';
 import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
@@ -7,7 +8,8 @@ import { PostsService } from 'src/app/services/posts.service';
   styleUrls: ['./all-post.component.less'],
 })
 export class AllPostComponent {
-  posts$ = this.postService.loadData().pipe();
+  isLoad: boolean = true;
+  posts$ = this.postService.loadData().pipe(tap(() => (this.isLoad = false)));
 
   constructor(private postService: PostsService) {}
 
