@@ -26,4 +26,8 @@ export class AllPostComponent {
       this.postService.deleteImage(postId, postImgPath);
     }
   }
+
+  onFeatured(postId: string, isFeatured: boolean): void {
+    this.postService.markFeatured(postId, isFeatured);
+  }
 }

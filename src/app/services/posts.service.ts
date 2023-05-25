@@ -99,4 +99,12 @@ export class PostsService {
       .then(() => this.toastr.warning('Post deleted successfully. 😊'))
       .catch(() => this.toastr.error('Error while deleting post. 😭'));
   }
+
+  markFeatured(postId: string, isFeatured: boolean): void {
+    this.afs
+      .doc(`posts/${postId}`)
+      .update({ isFeatured: isFeatured })
+      .then(() => this.toastr.info('Featured status updated successfully. 😊'))
+      .catch(() => this.toastr.error('Error while updating post. 😭'));
+  }
 }
