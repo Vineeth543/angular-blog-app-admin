@@ -50,7 +50,13 @@
                 <td>{{ post.data.category.category }}</td>
                 <td>{{ formatDate(post.data.createdAt) }}</td>
                 <td width="150">
-                  <button class="btn btn-sm btn-warning me-1">Update</button>
+                  <button
+                    class="btn btn-sm btn-warning me-1"
+                    routerLink="new"
+                    [queryParams]="{ id: post.id }"
+                  >
+                    Update
+                  </button>
                   <button class="btn btn-sm btn-danger ms-1">Delete</button>
                 </td>
               </tr>

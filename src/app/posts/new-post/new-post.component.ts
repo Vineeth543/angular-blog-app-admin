@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Observable, of, tap } from 'rxjs';
 import { Post } from 'src/app/models/post';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,9 +11,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './new-post.component.html',
   styleUrls: ['./new-post.component.less'],
 })
-export class NewPostComponent {
+export class NewPostComponent implements OnInit {
+  imgFile!: File;
+  postId!: string;
+  isLoad: boolean = true;
+  post$!: Observable<Post>;
+  formStatus: string = 'Add';
   imgSrc: string = './assets/image-placeholder.png';
-  imgFile: File | undefined;
   postForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(10)]),
     permalink: new FormControl({ value: '', disabled: true }, [
@@ -29,9 +35,34 @@ export class NewPostComponent {
   categories$ = this.categoryService.loadData();
 
   constructor(
+    private route: ActivatedRoute,
     private postService: PostsService,
     private categoryService: CategoryService
   ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(({ id }) => (this.postId = id));
+    this.postId && this.getPostData();
+    !this.postId && (this.post$ = of({} as Post));
+  }
+
+  getPostData(): void {
+    this.post$ = this.postService.loadPostById(this.postId).pipe(
+      tap((post: Post) => {
+        console.log(post);
+        this.postForm.patchValue({
+          title: post.title,
+          permalink: post.permalink,
+          excerpt: post.excerpt,
+          content: post.content,
+          category: post.category.categoryId + '-' + post.category.category,
+        });
+        this.imgSrc = post.postImgPath;
+        this.formStatus = 'Update';
+        this.isLoad = false;
+      })
+    );
+  }
 
   showFormErrors(field: string): string | void {
     const targetField = this.postForm.get(field);
@@ -65,7 +96,7 @@ export class NewPostComponent {
   }
 
   showPreview($event: Event): void {
-    this.imgFile = ($event.target as HTMLInputElement).files?.[0];
+    this.imgFile = ($event.target as HTMLInputElement).files?.[0]!;
     if (this.imgFile) {
       const reader = new FileReader();
       reader.onload = () => (this.imgSrc = reader.result as string);

@@ -1,8 +1,8 @@
-<div class="container">
+<div *ngIf="post$ | async; else loader" class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h3 class="text-theme-primary">Add New Post</h3>
-      <p class="mb-5">You can add your new post here</p>
+      <h3 class="text-theme-primary">{{ formStatus }} Post</h3>
+      <p class="mb-5">You can {{ formStatus | lowercase }} your post here</p>
     </div>
   </div>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
@@ -158,7 +158,7 @@
 
         <div class="col-md-12 text-center my-4">
           <button class="btn bg-theme me-1" [disabled]="postForm.invalid">
-            Save Post
+            {{ formStatus }} Post
           </button>
           <button type="button" class="btn btn-warning ms-1" routerLink="../">
             Back to Post
@@ -168,3 +168,7 @@
     </div>
   </form>
 </div>
+
+<ng-template #loader>
+  <app-loader [isLoad]="isLoad"></app-loader>
+</ng-template>

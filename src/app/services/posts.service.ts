@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { Router } from '@angular/router';
@@ -57,5 +58,9 @@ export class PostsService {
           })
         )
       );
+  }
+
+  loadPostById(id: string): Observable<Post> {
+    return <Observable<Post>>this.afs.doc(`posts/${id}`).valueChanges();
   }
 }
