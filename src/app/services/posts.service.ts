@@ -83,4 +83,20 @@ export class PostsService {
       })
       .catch(() => this.toastr.error('Error while updating post. 😭'));
   }
+
+  deleteImage(postId: string, postImgPath: string): void {
+    this.storage.storage
+      .refFromURL(postImgPath)
+      .delete()
+      .then(() => this.deletePost(postId))
+      .catch(() => this.toastr.error('Error while deleting image. 😭'));
+  }
+
+  deletePost(postId: string): void {
+    this.afs
+      .doc(`posts/${postId}`)
+      .delete()
+      .then(() => this.toastr.warning('Post deleted successfully. 😊'))
+      .catch(() => this.toastr.error('Error while deleting post. 😭'));
+  }
 }

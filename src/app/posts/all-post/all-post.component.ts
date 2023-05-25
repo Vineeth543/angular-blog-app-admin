@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { tap } from 'rxjs';
+import { Component } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
@@ -19,5 +19,11 @@ export class AllPostComponent {
       day: 'numeric',
       year: 'numeric',
     }).format(new Date(date.seconds * 1000));
+  }
+
+  onDelete(postId: string, postImgPath: string): void {
+    if (confirm('Are you sure to delete this post?')) {
+      this.postService.deleteImage(postId, postImgPath);
+    }
   }
 }
