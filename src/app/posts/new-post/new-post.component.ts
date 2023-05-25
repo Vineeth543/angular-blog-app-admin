@@ -49,7 +49,6 @@ export class NewPostComponent implements OnInit {
   getPostData(): void {
     this.post$ = this.postService.loadPostById(this.postId).pipe(
       tap((post: Post) => {
-        console.log(post);
         this.postForm.patchValue({
           title: post.title,
           permalink: post.permalink,
@@ -122,7 +121,12 @@ export class NewPostComponent implements OnInit {
       createdAt: new Date(),
     };
     this.postForm.get('permalink')!.disable();
-    this.postService.uploadImage(this.imgFile!, postData);
+    this.postService.uploadImage(
+      this.imgFile!,
+      this.postId,
+      postData,
+      this.formStatus
+    );
     this.postForm.reset();
     this.imgSrc = './assets/image-placeholder.png';
   }

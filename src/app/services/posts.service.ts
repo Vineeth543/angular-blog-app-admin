@@ -18,7 +18,12 @@ export class PostsService {
     private storage: AngularFireStorage
   ) {}
 
-  uploadImage(file: File, postData: Post): void {
+  uploadImage(
+    file: File,
+    postId: string,
+    postData: Post,
+    formStatus: string
+  ): void {
     const filePath = `postIMG/${Date.now()}-${file.name}`;
     this.storage
       .upload(filePath, file)
@@ -28,7 +33,11 @@ export class PostsService {
           .getDownloadURL()
           .subscribe((url) => {
             postData.postImgPath = url;
-            this.saveData(postData);
+            if (formStatus === 'Update') {
+              this.updatePost(postId, postData);
+            } else {
+              this.saveData(postData);
+            }
           })
       )
       .catch(() => this.toastr.error('Error while uploading image. 😭'));
@@ -60,7 +69,18 @@ export class PostsService {
       );
   }
 
-  loadPostById(id: string): Observable<Post> {
-    return <Observable<Post>>this.afs.doc(`posts/${id}`).valueChanges();
+  loadPostById(postId: string): Observable<Post> {
+    return <Observable<Post>>this.afs.doc(`posts/${postId}`).valueChanges();
+  }
+
+  updatePost(postId: string, postData: Post): void {
+    this.afs
+      .doc(`posts/${postId}`)
+      .update(postData)
+      .then(() => {
+        this.router.navigate(['/posts']);
+        this.toastr.success('Post updated successfully. 😊');
+      })
+      .catch(() => this.toastr.error('Error while updating post. 😭'));
   }
 }
