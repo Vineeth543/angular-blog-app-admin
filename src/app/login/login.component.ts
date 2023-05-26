@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.less'],
 })
 export class LoginComponent {
+  constructor(private authService: AuthService) {}
+
   onSubmit(data: { email: string; password: string }): void {
-    console.log(data);
+    this.authService.login(data.email, data.password);
   }
 }
