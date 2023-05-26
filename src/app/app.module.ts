@@ -20,6 +20,7 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './layouts/loader/loader.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoaderComponent } from './layouts/loader/loader.component';
     AllPostComponent,
     NewPostComponent,
     LoaderComponent,
+    LoginComponent,
   ],
   imports: [
     FormsModule,

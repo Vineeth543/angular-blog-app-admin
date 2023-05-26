@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card p-5 shadow-effect bg-secondary-theme">
+        <div class="card-body text-center">
+          <h3 class="text-theme-primary">Login</h3>
+          <p>Please login to your admin account to post a new blog post</p>
+          <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                name="email"
+                #Email="ngModel"
+                ngModel
+                required
+                email
+                [ngClass]="{
+                  'is-invalid': Email.touched && Email.invalid,
+                  'is-valid': Email.touched && Email.valid
+                }"
+              />
+            </div>
+            <div
+              *ngIf="Email.touched && Email.invalid"
+              class="alert alert-danger mt-3"
+            >
+              <div *ngIf="Email.errors?.['required']">Email is required</div>
+              <div *ngIf="Email.errors?.['email']">
+                Please enter a valid email
+              </div>
+            </div>
+            <div class="form-group my-3">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                name="password"
+                #Password="ngModel"
+                ngModel
+                required
+                [ngClass]="{
+                  'is-invalid': Password.touched && Password.invalid,
+                  'is-valid': Password.touched && Password.valid
+                }"
+              />
+            </div>
+            <div
+              *ngIf="Password.touched && Password.invalid"
+              class="alert alert-danger"
+            >
+              <div *ngIf="Password.errors?.['required']">
+                Password is required
+              </div>
+            </div>
+            <button class="btn btn-theme w-100" [disabled]="loginForm.invalid">
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
