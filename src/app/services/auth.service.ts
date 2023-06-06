@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class AuthService {
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoggedInGuard: boolean = false;
 
   constructor(
     private router: Router,
@@ -24,6 +25,7 @@ export class AuthService {
           this.toastr.success('Logged in successfullly. 😊');
           this.loadUser();
           this.loggedIn.next(true);
+          this.isLoggedInGuard = true;
           this.router.navigate(['/']);
         })
         .catch((error) => this.toastr.warning(error));
@@ -44,6 +46,7 @@ export class AuthService {
       .then(() => {
         this.toastr.success('Logged out successfullly. 😊');
         this.loggedIn.next(false);
+        this.isLoggedInGuard = false;
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
       })
